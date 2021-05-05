@@ -5,6 +5,7 @@ const refs = {
   lightbox: document.querySelector(".js-lightbox"),
   imageLightbox: document.querySelector(".lightbox__image"),
   closeLightboxButton: document.querySelector(".lightbox__button"),
+  overlayLightbox: document.querySelector(".lightbox__overlay"),
 };
 const listImages = galleryItems
   .map(
@@ -39,4 +40,18 @@ refs.closeLightboxButton.addEventListener("click", (event) => {
   refs.lightbox.classList.remove("is-open");
   refs.imageLightbox.src = "";
   refs.imageLightbox.alt = "";
+});
+
+refs.overlayLightbox.addEventListener("click", (event) => {
+  refs.lightbox.classList.remove("is-open");
+  refs.imageLightbox.src = "";
+  refs.imageLightbox.alt = "";
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.code === "Escape") {
+    refs.lightbox.classList.remove("is-open");
+    refs.imageLightbox.src = "";
+    refs.imageLightbox.alt = "";
+  }
 });
