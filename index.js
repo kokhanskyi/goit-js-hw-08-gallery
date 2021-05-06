@@ -31,10 +31,37 @@ refs.gallery.insertAdjacentHTML("beforeend", listImages);
 refs.gallery.addEventListener("click", (event) => {
   event.preventDefault();
   if (event.target.tagName !== "IMG") return;
+  openLightbox(event);
+});
+
+function openLightbox(event) {
   refs.lightbox.classList.add("is-open");
   refs.imageLightbox.src = event.target.dataset.source;
   refs.imageLightbox.alt = event.target.alt;
+}
+
+refs.closeLightboxButton.addEventListener("click", closeLightbox);
+
+refs.overlayLightbox.addEventListener("click", closeLightbox);
+
+window.addEventListener("keydown", (event) => {
+  if (event.code === "Escape") {
+    closeLightbox(event);
+  }
 });
+
+function closeLightbox(event) {
+  refs.lightbox.classList.remove("is-open");
+  refs.imageLightbox.src = "";
+  refs.imageLightbox.alt = "";
+}
+// refs.gallery.addEventListener("click", (event) => {
+//   event.preventDefault();
+//   if (event.target.tagName !== "IMG") return;
+//   refs.lightbox.classList.add("is-open");
+//   refs.imageLightbox.src = event.target.dataset.source;
+//   refs.imageLightbox.alt = event.target.alt;
+// });
 
 // refs.closeLightboxButton.addEventListener("click", (event) => {
 //   refs.lightbox.classList.remove("is-open");
@@ -48,20 +75,10 @@ refs.gallery.addEventListener("click", (event) => {
 //   refs.imageLightbox.alt = "";
 // });
 
-refs.closeLightboxButton.addEventListener("click", closeLightbox);
-
-refs.overlayLightbox.addEventListener("click", closeLightbox);
-
-function closeLightbox(event) {
-  refs.lightbox.classList.remove("is-open");
-  refs.imageLightbox.src = "";
-  refs.imageLightbox.alt = "";
-}
-
-window.addEventListener("keydown", (event) => {
-  if (event.code === "Escape") {
-    refs.lightbox.classList.remove("is-open");
-    refs.imageLightbox.src = "";
-    refs.imageLightbox.alt = "";
-  }
-});
+// window.addEventListener("keydown", (event) => {
+//   if (event.code === "Escape") {
+//     refs.lightbox.classList.remove("is-open");
+//     refs.imageLightbox.src = "";
+//     refs.imageLightbox.alt = "";
+//   }
+// });
