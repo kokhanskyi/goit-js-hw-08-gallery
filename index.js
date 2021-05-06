@@ -9,7 +9,7 @@ const refs = {
 };
 const listImages = galleryItems
   .map(
-    (image) => `
+    (image, ind) => `
 <li class="gallery__item">
   <a
     class="gallery__link"
@@ -19,6 +19,7 @@ const listImages = galleryItems
       class="gallery__image"
       src="${image.preview}"
       data-source="${image.original}"
+      data-ind="${ind}"
       alt="${image.description}"
     />
   </a>
@@ -28,10 +29,13 @@ const listImages = galleryItems
   .join("");
 refs.gallery.insertAdjacentHTML("beforeend", listImages);
 
+let indexImg = 0;
+
 refs.gallery.addEventListener("click", (event) => {
   event.preventDefault();
   if (event.target.tagName !== "IMG") return;
   openLightbox(event);
+  indexImg = +event.target.dataset.ind;
 });
 
 refs.closeLightboxButton.addEventListener("click", closeLightbox);
@@ -42,6 +46,25 @@ window.addEventListener("keydown", (event) => {
   if (event.code === "Escape") {
     closeLightbox(event);
   }
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.code === "ArrowRight") {
+    indexImg += 1;
+    if (indexImg > galleryItems.length - 1) {
+      indexImg = 0;
+    }
+  }
+  if (event.code === "ArrowLeft") {
+    indexImg -= 1;
+    if (indexImg < 0) {
+      indexImg = galleryItems.length - 1;
+    }
+  }
+  updateImg(
+    galleryItems[indexImg].original,
+    galleryItems[indexImg].description
+  );
 });
 
 function closeLightbox(event) {
@@ -58,31 +81,3 @@ function openLightbox(event) {
   refs.lightbox.classList.add("is-open");
   updateImg(event.target.dataset.source, event.target.alt);
 }
-
-// refs.gallery.addEventListener("click", (event) => {
-//   event.preventDefault();
-//   if (event.target.tagName !== "IMG") return;
-//   refs.lightbox.classList.add("is-open");
-//   refs.imageLightbox.src = event.target.dataset.source;
-//   refs.imageLightbox.alt = event.target.alt;
-// });
-
-// refs.closeLightboxButton.addEventListener("click", (event) => {
-//   refs.lightbox.classList.remove("is-open");
-//   refs.imageLightbox.src = "";
-//   refs.imageLightbox.alt = "";
-// });
-
-// refs.overlayLightbox.addEventListener("click", (event) => {
-//   refs.lightbox.classList.remove("is-open");
-//   refs.imageLightbox.src = "";
-//   refs.imageLightbox.alt = "";
-// });
-
-// window.addEventListener("keydown", (event) => {
-//   if (event.code === "Escape") {
-//     refs.lightbox.classList.remove("is-open");
-//     refs.imageLightbox.src = "";
-//     refs.imageLightbox.alt = "";
-//   }
-// });
