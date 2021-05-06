@@ -34,12 +34,6 @@ refs.gallery.addEventListener("click", (event) => {
   openLightbox(event);
 });
 
-function openLightbox(event) {
-  refs.lightbox.classList.add("is-open");
-  refs.imageLightbox.src = event.target.dataset.source;
-  refs.imageLightbox.alt = event.target.alt;
-}
-
 refs.closeLightboxButton.addEventListener("click", closeLightbox);
 
 refs.overlayLightbox.addEventListener("click", closeLightbox);
@@ -52,9 +46,19 @@ window.addEventListener("keydown", (event) => {
 
 function closeLightbox(event) {
   refs.lightbox.classList.remove("is-open");
-  refs.imageLightbox.src = "";
-  refs.imageLightbox.alt = "";
+  updateImg();
 }
+
+function updateImg(src = "", alt = "") {
+  refs.imageLightbox.src = src;
+  refs.imageLightbox.alt = alt;
+}
+
+function openLightbox(event) {
+  refs.lightbox.classList.add("is-open");
+  updateImg(event.target.dataset.source, event.target.alt);
+}
+
 // refs.gallery.addEventListener("click", (event) => {
 //   event.preventDefault();
 //   if (event.target.tagName !== "IMG") return;
